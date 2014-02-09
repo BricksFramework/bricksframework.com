@@ -1,0 +1,34 @@
+h1,
+h2 {
+	text-align: center;
+}
+nav {
+    background: #fff;
+}
+nav a {
+    color: #fffs;
+}
+h1 {
+	padding-top: 10%;
+}
+h2 {
+	padding-top: 5%;
+    padding-bottom: 10%;
+}
+button {
+    margin-left: 45%;
+}
+div#text {
+    margin-left:auto; 
+    margin-right:auto; 
+    text-align:center;
+}
+div#text a {
+    padding-top: 1%;
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    margin-left: 80px;
+    margin-right: 80px;
+}
+* { font-family: 'Roboto', Arial, serif; font-weight: 400; }
