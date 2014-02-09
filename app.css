@@ -1,34 +1,54 @@
-h1,
-h2 {
-	text-align: center;
-}
-nav {
-    background: #fff;
+nav#nav {
+    background: #86B529;
+    padding-left: 65px;
+    padding-right: 120px;
 }
 nav a {
-    color: #fffs;
+    color: #fff;
 }
 h1 {
-	padding-top: 10%;
+    padding-top: 120px;
+    font-size: 50px;
+    margin-left: 90px;
 }
-h2 {
-	padding-top: 5%;
-    padding-bottom: 10%;
+.float-right {
+    float: right;
 }
-button {
-    margin-left: 45%;
+h3 {
+    margin-left: 13px;
+	padding-top: 10px;
+    margin-left: 93px;
 }
-div#text {
-    margin-left:auto; 
-    margin-right:auto; 
-    text-align:center;
+div#btn-g {
+    padding-top: 100px;
+    padding-bottom: 30px;
 }
-div#text a {
-    padding-top: 1%;
-    text-decoration: none;
-    display: inline-block;
-    color: white;
-    margin-left: 80px;
-    margin-right: 80px;
+div#header {
+    background: #86B529;
 }
-* { font-family: 'Roboto', Arial, serif; font-weight: 400; }
+div#github {
+    padding: 20px 150px 20px 95px;
+    background: #709625;
+    color: #fff;
+}
+div#concept {
+    padding: 20px 150px 20px 95px;
+}
+div#animation {
+    padding: 20px 150px 20px 95px;
+}
+div#pre-footer {
+    padding: 20px 150px 20px 95px;
+    background: #709625;
+    color: #fff;
+}
+div#footer {
+    padding: 20px 150px 20px 95px;
+    background: #39471C;
+    color: #fff;
+}
+img#logosvg {
+    padding-top: 80px;
+    margin-right: 90px;
+}
+* { font-family: 'Raleway', Arial, serif; font-weight: 400; }
