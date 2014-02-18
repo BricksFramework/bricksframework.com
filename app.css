@@ -1,54 +1,116 @@
-nav#nav {
-    background: #86B529;
-    padding-left: 65px;
-    padding-right: 120px;
+.bold {
+    font-weight:bold;
 }
-nav a {
+div#notice {
+    height: 30px;
+}
+a {
+    text-decoration: none;
     color: #fff;
 }
-h1 {
-    padding-top: 120px;
+h1#title1 {
+    padding-top: 5%;
+}
+div#bricks-anim {
+    padding-top: 5%;
+}
+div#pre-glass {
+    padding-top: 5%;
+    padding-bottom: 5%;
+    background: #7A7877;
+    color: #fff;
+}
+div#one{
+    padding-top: 5%;
+}
+div#two {
+    padding-top: 5%;
+}
+div#three{
+    padding-top: 5%;
+}
+div#four {
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+div#caracteristics {
+    padding-left: 15%;
+    padding-right: 15%;    
+}
+nav#nav {
+    background: #F36E0E;
+    color: #000;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+nav a {
+    margin-right: 25px;
+}
+h1#title {
+    padding-top: 15%;
     font-size: 50px;
-    margin-left: 90px;
+}
+h1#title1 {
+    font-size: 30px;
 }
 .float-right {
     float: right;
 }
-h3 {
-    margin-left: 13px;
+h2#subtitle {
 	padding-top: 10px;
-    margin-left: 93px;
 }
 div#btn-g {
-    padding-top: 100px;
-    padding-bottom: 30px;
+    padding-top: 10%;
 }
 div#header {
-    background: #86B529;
+    height: 100%;
+    padding-left: 15%;
+    padding-right: 15%;
+    background: #F36E0E;
+    color: #fff;    
 }
 div#github {
-    padding: 20px 150px 20px 95px;
-    background: #709625;
-    color: #fff;
+    padding-left: 15%;
+    padding-right: 15%;
+    color: #000;
+    background: #F36E0E;
+}
+div#gitwid {
+    padding-top: 2%;
+    padding-bottom: 2%;
 }
 div#concept {
-    padding: 20px 150px 20px 95px;
+    padding-left: 15%;
+    padding-right: 15%;
 }
 div#animation {
-    padding: 20px 150px 20px 95px;
-}
-div#pre-footer {
-    padding: 20px 150px 20px 95px;
-    background: #709625;
-    color: #fff;
+    padding-left: 15%;
+    padding-right: 15%;
 }
 div#footer {
-    padding: 20px 150px 20px 95px;
-    background: #39471C;
     color: #fff;
+    background: #7A7877;
 }
 img#logosvg {
-    padding-top: 80px;
-    margin-right: 90px;
+    padding-top: 5%;
+    left:0;
 }
-* { font-family: 'Raleway', Arial, serif; font-weight: 400; }
+p#menu {
+    padding-top: 0.5%;
+}
+div#social {
+    background: #7A7877;
+}
+div#iconsocial {
+    padding-top: 2%;
+    padding-bottom: 2%;
+    color: #fff;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+* { 
+    font-family: 'Raleway', Arial, serif; 
+    font-weight: 400;
+    padding: 0;
+    margin: 0;
+}
