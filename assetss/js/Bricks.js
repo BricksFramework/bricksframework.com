@@ -1,5 +1,5 @@
 /*
-*  Bricks v0.0.5 24-02-2014 
+*  Bricks v0.0.5 16-02-2014 
 *  Created by Giovanny Andres Gongora Granada 
 *  License MIT 
 *  bricksframework.github.io
@@ -7,16 +7,16 @@
 
 (function (window, undefined) {
 
-var document   = window.document, 
-    _bricks   = window.bricks,
-    _$         = window.$,
-    idExp      = /^#([\w\-]*)$/,
-    classExp   = /^\.([\w\-]*)$/,
-    tagNameExp = /^[\w\-]+$/,
-    tagExp     = /^<([\w:]+)/,
-    slice      = [].slice,
-    splice     = [].splice,
-    noop       = function () {};
+var document   = window.document
+  , _briickless   = window.briickless
+  , _$         = window.$
+  , idExp      = /^#([\w\-]*)$/
+  , classExp   = /^\.([\w\-]*)$/
+  , tagNameExp = /^[\w\-]+$/
+  , tagExp     = /^<([\w:]+)/
+  , slice      = [].slice
+  , splice     = [].splice
+  , noop       = function () {};
 
 try {
   slice.call(document.childNodes);
@@ -32,11 +32,11 @@ try {
   };
 }
 
-var bricks = function (selector, context) {
-  return new bricks.fn.find(selector, context);
+var briickless = function (selector, context) {
+  return new briickless.fn.find(selector, context);
 };
 
-bricks.fn = bricks.prototype = {
+briickless.fn = briickless.prototype = {
 
   length: 0,
 
@@ -59,9 +59,9 @@ bricks.fn = bricks.prototype = {
         if (callback.call(target[i], i, target[i]) === false) break;
       }
     } else {
-      if (target instanceof bricks) {
-        return bricks.each(slice.call(target), callback);
-      } else if (bricks.isObject(target)) {
+      if (target instanceof briickless) {
+        return briickless.each(slice.call(target), callback);
+      } else if (briickless.isObject(target)) {
         for (key in target) {
           if (target.hasOwnProperty(key) && callback.call(target[key], key, target[key]) === false) break;
         }
@@ -72,7 +72,7 @@ bricks.fn = bricks.prototype = {
   },
 
   set: function (elements) {
-    var i = 0, set = bricks();
+    var i = 0, set = briickless();
     set.selector = this.selector;
     set.context = this.context;
     for (; i < elements.length; i++) {
@@ -89,8 +89,8 @@ bricks.fn = bricks.prototype = {
       return this;
     }
 
-    if (bricks.isFunction(selector)) {
-      return bricks.ready(selector);
+    if (briickless.isFunction(selector)) {
+      return briickless.ready(selector);
     }
 
     if (selector.nodeType) {
@@ -106,23 +106,23 @@ bricks.fn = bricks.prototype = {
 
     context = this.context ? this.context : (context || document);
 
-    if (bricks.isPlainObject(context)) {
+    if (briickless.isPlainObject(context)) {
       attrs = context;
       context = document;
     }
 
-    if (context instanceof bricks) {
+    if (context instanceof briickless) {
       context = context.context;
     }
 
-    if (bricks.isString(selector)) {
+    if (briickless.isString(selector)) {
       this.selector = selector;
       if (idExp.test(selector) && context.nodeType === context.DOCUMENT_NODE) {
         els = (els = context.getElementById(selector.substr(1))) ? [els] : [];
       } else if (context.nodeType !== 1 && context.nodeType !== 9) {
         els = [];
       } else if (tagExp.test(selector)) {
-        bricks.each(normalize(selector), function () {
+        briickless.each(normalize(selector), function () {
           els.push(this);
         });
       } else {
@@ -134,7 +134,7 @@ bricks.fn = bricks.prototype = {
       }
     } else if (selector.nodeName || selector === window) {
       els = [selector];
-    } else if (bricks.isArray(selector)) {
+    } else if (briickless.isArray(selector)) {
       els = selector;
     }
 
@@ -142,7 +142,7 @@ bricks.fn = bricks.prototype = {
       this.selector = selector.selector;
       this.context = selector.context;
     } else if (this.context === undefined) {
-      if (els[0] !== undefined && !bricks.isString(els[0])) {
+      if (els[0] !== undefined && !briickless.isString(els[0])) {
         this.context = els[0];
       } else {
         this.context = document;
@@ -150,12 +150,12 @@ bricks.fn = bricks.prototype = {
     }
 
     return this.set(els).each(function () {
-      return attrs && bricks(this).attr(attrs);
+      return attrs && briickless(this).attr(attrs);
     });
   }
 };
 
-bricks.extend = function () {
+briickless.extend = function () {
   var target = arguments[0] || {};
 
   if (typeof target !== 'object' && typeof target !== 'function') {
@@ -164,7 +164,7 @@ bricks.extend = function () {
 
   if (arguments.length === 1) target = this;
 
-  bricks.fn.each(slice.call(arguments), function (i, value) {
+  briickless.fn.each(slice.call(arguments), function (i, value) {
     for (var key in value) {
       if (target[key] !== value[key]) target[key] = value[key];
     }
@@ -173,11 +173,11 @@ bricks.extend = function () {
   return target;
 };
 
-bricks.fn.find.prototype = bricks.fn;
+briickless.fn.find.prototype = briickless.fn;
 
-bricks.extend({
+briickless.extend({
 
-  each: bricks.fn.each,
+  each: briickless.fn.each,
 
   isFunction: function (obj) {
     return typeof obj === 'function';
@@ -202,7 +202,7 @@ bricks.extend({
   isPlainObject: function (obj) {
     if (!obj || !this.isObject(obj) || this.isWindow(obj) || obj.nodeType) {
       return false;
-    } else if (Object.getPrototypeOf(obj) === Object.prototype) {
+    } else if (obj.__proto__ === Object.prototype) {
       return true;
     } else {
       var key;
@@ -262,11 +262,11 @@ bricks.extend({
 
   noConflict: function (name) {
     if (name) {
-      window.bricks = _bricks;
+      window.briickless = _briickless;
     }
 
     window.$ = _$;
-    return bricks;
+    return briickless;
   },
 
   pluck: function (prop) {
@@ -278,7 +278,7 @@ bricks.extend({
   },
 
   trim: function (str) {
-    return str === null ? '' : str.trim ? str.trim() : ('' + str).replace(/^\s+|\s+$/g, '');
+    return str == null ? '' : str.trim ? str.trim() : ('' + str).replace(/^\s+|\s+$/g, '');
   }
 
 });
@@ -328,20 +328,20 @@ var domReady = (function () {
     isReady = true;
 
     for (var i = 0; i < fns.length; i++) {
-      fns[i].call(document, bricks);
+      fns[i].call(document, briickless);
     }
   }
 
   return function (callback) {
-    return isReady ? callback.call(document, bricks) : fns.push(callback);
+    return isReady ? callback.call(document, briickless) : fns.push(callback);
   };
 })();
 
-bricks.ready = bricks.fn.ready = domReady;
-bricks.fn.extend({
+briickless.ready = briickless.fn.ready = domReady;
+briickless.fn.extend({
 
   addClass: function (value) {
-    if (value && bricks.isString(value)) {
+    if (value && briickless.isString(value)) {
       return this.each(function (index, el) {
         if (el.nodeType === 1) {
           var classNames = value.split(/\s+/);
@@ -356,7 +356,7 @@ bricks.fn.extend({
               }
             }
 
-            el.className = bricks.trim(className);
+            el.className = briickless.trim(className);
           }
         }
       });
@@ -365,7 +365,7 @@ bricks.fn.extend({
 
   removeClass: function (value) {
     return this.each(function (index, el) {
-      if (value && bricks.isString(value)) {
+      if (value && briickless.isString(value)) {
         var classNames = value.split(/\s+/);
         if (el.nodeType === 1 && el.className) {
           if (classNames.length === 1) {
@@ -376,7 +376,7 @@ bricks.fn.extend({
             }
           }
 
-          el.className = bricks.trim(el.className.replace(/\s{2}/g, ' '));
+          el.className = briickless.trim(el.className.replace(/\s{2}/g, ' '));
 
           if (el.className === '') {
             el.removeAttribute('class');
@@ -387,9 +387,9 @@ bricks.fn.extend({
   },
 
   hasClass: function (value) {
-    var classNames = (this[0] ? this[0] : this).className.split(/\s+/),
-        values = value.split(/\s+/),
-        i = 0;
+    var classNames = (this[0] ? this[0] : this).className.split(/\s+/)
+      , values = value.split(/\s+/)
+      , i = 0;
 
     if (values.length > 1) {
       var hasClasses = false;
@@ -397,7 +397,7 @@ bricks.fn.extend({
         hasClasses = this.hasClass.call(this, values[i]);
       }
       return hasClasses;
-    } else if (bricks.isString(value)) {
+    } else if (briickless.isString(value)) {
       for (i = 0; i < classNames.length; i++) {
         if (classNames[i] === value) return true;
       }
@@ -406,7 +406,7 @@ bricks.fn.extend({
   },
 
   attr: function (name, value) {
-    if (bricks.isObject(name)) {
+    if (briickless.isObject(name)) {
       return this.each(function () {
         for (var key in name) {
           if (this.setAttribute) {
@@ -414,13 +414,13 @@ bricks.fn.extend({
           }
         }
       });
-    } else if ((value || value === null || value === false) && bricks.isString(name)) {
+    } else if ((value || value === null || value === false) && briickless.isString(name)) {
       return this.each(function () {
         if (this.setAttribute) {
           this.setAttribute(name, value === null ? value + '' : value);
         }
       });
-    } else if (bricks.isString(name)) {
+    } else if (briickless.isString(name)) {
       var attribute;
       for (var i = 0; i < this.length; i++) {
         if (this[i].getAttribute !== undefined && (attribute = this[i].getAttribute(name)) !== null) {
@@ -435,7 +435,7 @@ bricks.fn.extend({
 
   data: function (name, value) {
     value = this.attr('data-' + name, serializeValue(value));
-    return value instanceof bricks ? value : deserializeValue(value);
+    return value instanceof briickless ? value : deserializeValue(value);
   },
 
   removeAttr: function (name) {
@@ -452,7 +452,7 @@ bricks.fn.extend({
 
 function serializeValue (value) {
   try {
-    return value ? (bricks.isPlainObject(value) || bricks.isArray(value)) &&
+    return value ? (briickless.isPlainObject(value) || briickless.isArray(value)) &&
     JSON.stringify ? JSON.stringify(value) : value : value;
   } catch (e) {
     return value;
@@ -464,37 +464,37 @@ function deserializeValue (value) {
   try {
     return value ? value === 'true' || (value === 'false' ? false :
     value === 'null' ? null : !isNaN(num = Number(value)) ? num :
-    /^[\[\{]/.test(value) ? bricks.parseJSON(value) : value) : value;
+    /^[\[\{]/.test(value) ? briickless.parseJSON(value) : value) : value;
   } catch (e) {
     return value;
   }
 }
-bricks.fn.extend({
+briickless.fn.extend({
 
   filter: function (obj) {
-    if (bricks.isFunction(obj)) {
+    if (briickless.isFunction(obj)) {
       var els = [];
       this.each(function (index, el) {
         if (obj.call(el, index)) {
           els.push(el);
         }
       });
-      return bricks(els);
+      return briickless(els);
     } else {
       return this.filter(function () {
-        return bricks.matches(this, obj);
+        return briickless.matches(this, obj);
       });
     }
   },
 
   not: function (selector) {
     return this.filter(function () {
-      return !bricks.matches(this, selector);
+      return !briickless.matches(this, selector);
     });
   },
 
   eq: function (index) {
-    return index === -1 ? bricks(slice.call(this, this.length -1)) : bricks(slice.call(this, index, index + 1));
+    return index === -1 ? briickless(slice.call(this, this.length -1)) : briickless(slice.call(this, index, index + 1));
   },
 
   get: function (index) {
@@ -506,7 +506,7 @@ bricks.fn.extend({
     this.each(function () {
       els.push(this.cloneNode(true));
     });
-    return bricks(els);
+    return briickless(els);
   },
 
   toggle: function (state) {
@@ -519,31 +519,31 @@ bricks.fn.extend({
   toggleClass: function (name, state) {
     return this.each(function (i) {
       var el = $(this);
-      name = bricks.isFunction(name) ? name.call(this, i, el.attr('class'), state) : bricks.isString(name) ? name : '';
-      bricks.each(name.split(/\s+/g), function (i, klass) {
+      name = briickless.isFunction(name) ? name.call(this, i, el.attr('class'), state) : briickless.isString(name) ? name : '';
+      briickless.each(name.split(/\s+/g), function (i, klass) {
         el[(state === undefined ? !el.hasClass(klass) : state) ? 'addClass' : 'removeClass'](klass);
       });
     });
   }
 });
-var _eventId = 1,
-    c = window.c = {},
-    returnTrue = function () { return true; },
-    returnFalse = function () { return false; },
-    ignoreProperties = /^([A-Z]|layer[XY]$)/,
-    sepcialExp = /click|mouse/,
-    mouse = {
+var _eventId = 1
+  , c = window.c = {}
+  , returnTrue = function () { return true; }
+  , returnFalse = function () { return false; }
+  , ignoreProperties = /^([A-Z]|layer[XY]$)/
+  , sepcialExp = /click|mouse/
+  , mouse = {
       mouseenter: 'mouseover',
       mouseleave: 'mouseout'
-    },
-    eventMethods = {
+    }
+  , eventMethods = {
       preventDefault: 'isDefaultPrevented',
       stopImmediatePropagation: 'isStopImmediatePropagation',
       stopPropagation: 'isPropagationStopped'
-    },
-    opcHandler,
-    opcCache = {},
-    createEvent = !!document.createEvent;
+    }
+  , opcHandler
+  , opcCache = {}
+  , createEvent = !!document.createEvent;
 
 function getEventParts (event) {
   var parts = ('' + event).split('.');
@@ -568,10 +568,10 @@ function inHandlers (parts, handlers) {
 }
 
 function getEventHandlers (id, event) {
-  var parts = getEventParts(event),
-      handlers = [],
-      tmp,
-      ns;
+  var parts = getEventParts(event)
+    , handlers = []
+    , tmp
+    , ns;
 
   event = realEvent(parts.ev);
   ns = parts.ns;
@@ -590,7 +590,7 @@ function getEventHandlers (id, event) {
     for (event in c[id]) {
       tmp = c[id][event];
       for (var i = 0, l = tmp.length; i < l; i++) {
-        if (tmp[i] && ns.length && tmp[i].ns.length && bricks.inArray(ns, tmp[i].ns.split(' ')) !== -1) {
+        if (tmp[i] && ns.length && tmp[i].ns.length && briickless.inArray(ns, tmp[i].ns.split(' ')) !== -1) {
           handlers.push(tmp[i]);
         }
       }
@@ -601,15 +601,15 @@ function getEventHandlers (id, event) {
 }
 
 function createEventHandler (el, event, callback, _callback) {
-  var id = getEventId(el),
-      handlers = getEventHandlers(id, event),
-      parts = getEventParts(event),
-      cb = callback || _callback;
+  var id = getEventId(el)
+    , handlers = getEventHandlers(id, event)
+    , parts = getEventParts(event)
+    , cb = callback || _callback;
 
   var fn = function (event) {
     if (!event.liveTarget) event.liveTarget = event.target || event.srcElement;
     var data = event.data;
-    if (bricks.isString(data) && /^[\[\{]/.test(data)) data = bricks.parseJSON(event.data);
+    if (briickless.isString(data) && /^[\[\{]/.test(data)) data = briickless.parseJSON(event.data);
     var result = cb.apply(el, [event].concat(data));
     if (result === false) {
       if (event.stopPropagation) event.stopPropagation();
@@ -626,16 +626,16 @@ function createEventHandler (el, event, callback, _callback) {
 
 function createProxy (event) {
   var proxy = { originalEvent: event };
-  function outsideloop() {
-      this[eventMethods[name]] = returnTrue;
-      return event[name].apply(event, arguments);
-  }
+
   for (var key in event) {
     if (!ignoreProperties.test(key) && event[key] !== undefined) {
       proxy[key] = event[key];
     }
     for (var name in eventMethods) {
-      proxy[name] = outsideloop;
+      proxy[name] = function () {
+        this[eventMethods[name]] = returnTrue;
+        return event[name].apply(event, arguments);
+      };
       proxy[eventMethods[name]] = returnFalse;
     }
   }
@@ -646,15 +646,15 @@ function createProxy (event) {
 function addEvent (el, events, callback, selector) {
   var fn, _callback;
 
-  if (bricks.isString(selector)) {
+  if (briickless.isString(selector)) {
     _callback = callback;
     fn = function () {
       return (function (el, callback, selector) {
         return function (e) {
-          var match = bricks(el).find(e.target || e.srcElement);
+          var match = briickless(el).find(e.target || e.srcElement);
           match = match.get(0) === el ? match.find(selector) : match;
           if (match.is(selector)) {
-            var event = bricks.extend(createProxy(e), {
+            var event = briickless.extend(createProxy(e), {
               currentTarget: match.get(0)
             });
 
@@ -668,7 +668,7 @@ function addEvent (el, events, callback, selector) {
     selector = undefined;
   }
 
-  bricks.each(events.split(/\s/), function (index, event) {
+  briickless.each(events.split(/\s/), function (index, event) {
     var parts = getEventParts(event);
 
     if (_callback !== undefined && parts.ev in mouse) {
@@ -676,11 +676,11 @@ function addEvent (el, events, callback, selector) {
       fn = function () {
         return function (e) {
           var related = e.relatedTarget;
-          if (!related || (related !== this && !bricks.contains(this, related))) {
+          if (!related || (related !== this && !briickless.contains(this, related))) {
             return _fn.apply(this, arguments);
           }
-        };
-      };
+        }
+      }
     }
 
     var handler = createEventHandler(el, event, fn && fn() || callback, _callback);
@@ -708,14 +708,14 @@ function testEventHandler (parts, callback, selector, handler) {
 function removeEvent (el, events, callback, selector) {
   var id = getEventId(el);
 
-  if (callback === undefined && bricks.isFunction(selector)) {
+  if (callback === undefined && briickless.isFunction(selector)) {
     callback = selector;
     selector = undefined;
   }
 
-  bricks.each(events.split(/\s/), function (index, event) {
-    var handlers = getEventHandlers(id, event),
-        parts = getEventParts(event);
+  briickless.each(events.split(/\s/), function (index, event) {
+    var handlers = getEventHandlers(id, event)
+      , parts = getEventParts(event);
 
     event = realEvent(parts.ev);
 
@@ -726,7 +726,7 @@ function removeEvent (el, events, callback, selector) {
           el.removeEventListener(event, handlers[i], false);
         } else if (el.detachEvent) {
           var name = 'on' + event;
-          if (bricks.isString(el[name])) el[name] = null;
+          if (briickless.isString(el[name])) el[name] = null;
           el.detachEvent(name, handlers[i]);
           if (opcCache[el.nodeName]) { // Remove custom event handler on IE8.
             el.detachEvent('onpropertychange', opcHandler);
@@ -743,9 +743,9 @@ function removeEvent (el, events, callback, selector) {
   delete c[id];
 }
 
-bricks.events = bricks.events || {};
+briickless.events = briickless.events || {};
 
-bricks.fn.extend({
+briickless.fn.extend({
 
   on: function (events, selector, callback) {
     return this.each(function () {
@@ -765,10 +765,10 @@ bricks.fn.extend({
 
       var parts = getEventParts(event.type || event);
 
-      event = bricks.Event(event);
+      event = briickless.Event(event)
       event.data = data || {};
 
-      if (bricks.isString(event.data) && !bricks.isString(data) && JSON.stringify) {
+      if (briickless.isString(event.data) && !briickless.isString(data) && JSON.stringify) {
         event.data = JSON.stringify(data);
       }
 
@@ -785,7 +785,7 @@ bricks.fn.extend({
                   var handlers = getEventHandlers(ev.srcElement._eventId, ev.eventName);
                   if (handlers.length) {
                     for (var i = 0, l = handlers.length; i < l; i++) {
-                      if (bricks.isFunction(handlers[i])) handlers[i](ev);
+                      if (briickless.isFunction(handlers[i])) handlers[i](ev);
                     }
                   }
                 }
@@ -801,9 +801,9 @@ bricks.fn.extend({
       if (!event.isPropagationStopped()) {
         var parent = el.parentNode || el.ownerDocument;
         if (parent && parent._eventId > 0) {
-          // bricks use `liveTarget` instead of creating a own Event object that modifies `target` property.
+          // briickless use `liveTarget` instead of creating a own Event object that modifies `target` property.
           event.liveTarget = el;
-          bricks(parent).trigger(event, data);
+          briickless(parent).trigger(event, data);
         } else {
           event.stopPropagation();
         }
@@ -813,8 +813,8 @@ bricks.fn.extend({
 
 });
 
-bricks.Event = function (type, props) {
-  if (!bricks.isString(type)) {
+briickless.Event = function (type, props) {
+  if (!briickless.isString(type)) {
     if (type.type) return type;
     props = type;
     type = props.type;
@@ -863,8 +863,8 @@ bricks.Event = function (type, props) {
   return event;
 };
 
-var wrapTags = /^(select|fieldset|table|tbody|tfoot|td|tr|colgroup)$/i,
-    wrapMap = {
+var wrapTags = /^(select|fieldset|table|tbody|tfoot|td|tr|colgroup)$/i
+  , wrapMap = {
       thead: ['<table>', '</table>', 1],
       col: ['<table><colgroup>', '</colgroup></table>', 2],
       tr: ['<table><tbody>', '</tbody></table>', 2],
@@ -879,7 +879,7 @@ function isNode (node) {
 }
 
 function normalize (node) {
-  if (node instanceof bricks) {
+  if (node instanceof briickless) {
     var els = [];
     node.each(function (i, el) {
       el = normalize(el);
@@ -888,15 +888,15 @@ function normalize (node) {
     });
     return els;
   }
-  return bricks.isString(node) ? wrap(node) : isNode(node) ? [node] : node;
+  return briickless.isString(node) ? wrap(node) : isNode(node) ? [node] : node;
 }
 
 function wrap (node) {
   return typeof node === 'string' && node !== '' ? function () {
-    var tag = tagExp.exec(node),
-        el = document.createElement('div'),
-        wrap = tag ? wrapMap[tag[1].toLowerCase()] : null,
-        level = wrap ? wrap[2] + 1 : 1;
+    var tag = tagExp.exec(node)
+      , el = document.createElement('div')
+      , wrap = tag ? wrapMap[tag[1].toLowerCase()] : null
+      , level = wrap ? wrap[2] + 1 : 1;
     el.innerHTML = wrap ? (wrap[0] + node + wrap[1]) : node;
     while (level--) el = el.firstChild;
     return [el];
@@ -913,11 +913,11 @@ function target (el, html) {
     el;
 }
 
-bricks.fn.extend({
+briickless.fn.extend({
 
   append: function (node) {
     return this.each(function (i, el) {
-      bricks.each(normalize(node), function () {
+      briickless.each(normalize(node), function () {
         target(el, node).appendChild(this);
       });
     });
@@ -926,7 +926,7 @@ bricks.fn.extend({
   prepend: function (node) {
     return this.each(function (i, el) {
       var first = target(el, node).firstChild;
-      bricks.each(normalize(node), function () {
+      briickless.each(normalize(node), function () {
         if (first) {
           first.parentNode.insertBefore(this, first);
         } else {
@@ -938,7 +938,7 @@ bricks.fn.extend({
 
   before: function (node) {
     return this.each(function (i, el) {
-      bricks.each(normalize(node), function () {
+      briickless.each(normalize(node), function () {
         el.parentNode.insertBefore(this, el);
       });
     });
@@ -946,7 +946,7 @@ bricks.fn.extend({
 
   after: function (node) {
     return this.each(function (i, el) {
-      bricks.each(normalize(node), function () {
+      briickless.each(normalize(node), function () {
         el.parentNode.insertBefore(this, el.nextSibling);
       });
     });
@@ -965,46 +965,45 @@ bricks.fn.extend({
 
     return this.each(function () {
       try {
-        if ((bricks.isString(html) || bricks.isNumeric(html)) && !wrapTags.test(this.tagName)) {
-          var result = this.innerHTML = html;
-          return result;
+        if ((briickless.isString(html) || briickless.isNumeric(html)) && !wrapTags.test(this.tagName)) {
+          return this.innerHTML = html;
         }
       } catch (e) {}
       var el = this;
-      bricks.each(normalize(this), function () {
+      briickless.each(normalize(this), function () {
         return el.appendChild(this);
       });
     });
   },
 
   is: function (selector) {
-    return this[0] && bricks.matches(this[0], selector);
+    return this[0] && briickless.matches(this[0], selector);
   },
 
   closest: function (selector, context) {
     var node = this[0];
 
-    while (node && !bricks.matches(node, selector)) {
+    while (node && !briickless.matches(node, selector)) {
       node = node.parentNode;
       if (!node || !node.ownerDocument || node === context || node.nodeType === 11) break;
     }
 
-    return bricks(node);
+    return briickless(node);
   },
 
   parent: function (selector) {
     var parent = this.pluck('parentNode');
-    return selector === undefined ? bricks(parent) : bricks(parent).filter(selector);
+    return selector === undefined ? briickless(parent) : briickless(parent).filter(selector);
   },
 
   children: function (selector) {
     var children = [];
     this.each(function () {
-      bricks.each(slice.call(this.children), function (i, value) {
+      briickless.each(slice.call(this.children), function (i, value) {
         children.push(value);
       });
     });
-    return selector === undefined ? bricks(children) : bricks(children).filter(selector);
+    return selector === undefined ? briickless(children) : briickless(children).filter(selector);
   },
 
   text: function (text) {
@@ -1032,7 +1031,7 @@ bricks.fn.extend({
           return;
         } else if (value === null || value === undefined) {
           value = '';
-        } else if (bricks.isNumeric(value)) {
+        } else if (briickless.isNumeric(value)) {
           value += '';
         }
         this.value = value;
@@ -1050,30 +1049,30 @@ bricks.fn.extend({
 
 });
 
-bricks.each({
+briickless.each({
   appendTo: 'append',
   prependTo: 'prepend',
   insertBefore: 'before',
   insertAfter: 'after'
 }, function (key, value) {
-  bricks.fn[key] = function (selector) {
-    return bricks(selector)[value](this);
+  briickless.fn[key] = function (selector) {
+    return briickless(selector)[value](this);
   };
 });
 function ajaxJSONP (url, options) {
-  var name = (name = /callback\=([A-Za-z0-9\-\.]+)/.exec(url)) ? name[1] : 'jsonp' + (+new Date()),
-      el = document.createElement('script'),
-      abortTimeout = null,
-      cleanUp = function () {
+  var name = (name = /callback\=([A-Za-z0-9\-\.]+)/.exec(url)) ? name[1] : 'jsonp' + (+new Date())
+    , el = document.createElement('script')
+    , abortTimeout = null
+    , cleanUp = function () {
         if (abortTimeout !== null) clearTimeout(abortTimeout);
-        bricks(el).remove();
+        briickless(el).remove();
         try { delete window[name]; }
         catch (e) { window[name] = undefined; }
-      },
-      abort = function (error) {
+      }
+    , abort = function (error) {
         cleanUp();
         if (error === 'timeout') window[name] = noop;
-        if (bricks.isFunction(options.error)) options.error(error, options);
+        if (briickless.isFunction(options.error)) options.error(error, options);
       };
 
   el.onerror = function () {
@@ -1087,51 +1086,51 @@ function ajaxJSONP (url, options) {
   }
 
   window[name] = function (data) {
-    bricks(el).remove();
+    briickless(el).remove();
     try { delete window[name]; }
     catch (e) { window[name] = undefined; }
-    bricks.ajaxSuccess(data, null, options);
+    briickless.ajaxSuccess(data, null, options);
   };
 
-  options.data = bricks.param(options.data);
+  options.data = briickless.param(options.data);
   el.src = url.replace(/\=\?/, '=' + name);
-  bricks('head')[0].appendChild(el);
+  briickless('head')[0].appendChild(el);
 }
 
-bricks.extend({
+briickless.extend({
 
   ajax: function (url, options) {
-    options = options || bricks.ajaxSettings;
+    options = options || briickless.ajaxSettings;
 
-    if (bricks.isObject(url)) {
-      if (bricks.isFunction(options)) {
+    if (briickless.isObject(url)) {
+      if (briickless.isFunction(options)) {
         url.success = url.success || options;
       }
       options = url;
       url = options.url;
     }
 
-    if (bricks.isFunction(options)) options = { success: options };
+    if (briickless.isFunction(options)) options = { success: options };
 
-    for (var opt in bricks.ajaxSettings) {
+    for (var opt in briickless.ajaxSettings) {
       if (!options.hasOwnProperty(opt)) {
-        options[opt] = bricks.ajaxSettings[opt];
+        options[opt] = briickless.ajaxSettings[opt];
       }
     }
 
     if (!url) return options.xhr();
 
-    var xhr = options.xhr(),
-        error = 'error',
-        abortTimeout = null,
-        jsonp = options.dataType === 'jsonp',
-        mime = {
+    var xhr = options.xhr()
+      , error = 'error'
+      , abortTimeout = null
+      , jsonp = options.dataType === 'jsonp'
+      , mime = {
           html: 'text/html',
           text: 'text/plain',
           xml: 'application/xml, text/xml',
           json: 'application/json'
-        },
-        params = bricks.param(options.data) !== '' ? bricks.param(options.data) : options.data;
+        }
+      , params = briickless.param(options.data) !== '' ? briickless.param(options.data) : options.data;
 
     for (var k in mime) {
       if (url.indexOf('.' + k) !== -1 && !options.dataType) options.dataType = k;
@@ -1142,7 +1141,7 @@ bricks.extend({
       return ajaxJSONP(url, options);
     }
 
-    if (bricks.isFunction(options.beforeOpen)) {
+    if (briickless.isFunction(options.beforeOpen)) {
       var bc = options.beforeOpen(xhr, options);
       if (!bc) {
         xhr.abort();
@@ -1181,7 +1180,7 @@ bricks.extend({
         if (xhr.readyState === 4) {
           if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
             if (options.success !== undefined) {
-              bricks.ajaxSuccess(null, xhr, options);
+              briickless.ajaxSuccess(null, xhr, options);
             }
           } else if (options.error !== undefined) {
             if (abortTimeout !== null) clearTimeout(abortTimeout);
@@ -1190,7 +1189,7 @@ bricks.extend({
         }
       };
 
-      if (bricks.isFunction(options.beforeSend)) {
+      if (briickless.isFunction(options.beforeSend)) {
         var bs = options.beforeSend(xhr, options);
         if (bs !== false) {
           xhr.send(params);
@@ -1233,34 +1232,34 @@ bricks.extend({
   ajaxSuccess: function (data, xhr, options) {
     var res;
     if (xhr) {
-      if ((options.dataType === 'json' || false) && (res = bricks.parseJSON(xhr.responseText)) === null) res = xhr.responseText;
+      if ((options.dataType === 'json' || false) && (res = briickless.parseJSON(xhr.responseText)) === null) res = xhr.responseText;
       if (options.dataType === 'xml') res = xhr.responseXML;
       res = res || xhr.responseText;
     }
     if (!res && data) res = data;
-    if (bricks.isFunction(options.success)) options.success(res);
+    if (briickless.isFunction(options.success)) options.success(res);
   },
 
   param: function (obj, prefix) {
     var str = [];
     this.each(obj, function (p, v) {
       var k = prefix ? prefix + '[' + p + ']' : p;
-      str.push(bricks.isObject(v) ? bricks.param(v, k) : encodeURIComponent(k) + '=' + encodeURIComponent(v));
+      str.push(briickless.isObject(v) ? briickless.param(v, k) : encodeURIComponent(k) + '=' + encodeURIComponent(v));
     });
     return str.join('&').replace('%20', '+');
   }
 });
 
-bricks.fn.extend({
+briickless.fn.extend({
 
   css: function (prop, value) {
-    if (bricks.isString(prop) && value === undefined) {
+    if (briickless.isString(prop) && value === undefined) {
       return this.length > 0 ? getPropertyValue(this[0], prop) : undefined;
     }
 
     return this.each(function () {
       if (this.style !== undefined) {
-        if (bricks.isString(prop)) {
+        if (briickless.isString(prop)) {
           this.style[prop] = value;
         } else {
           for (var key in prop) {
@@ -1305,6 +1304,6 @@ function getPropertyValue(el, prop) {
   return !!value ? value : '';
 }
 
-  window.$ = window.bricks = window.bk = bricks;
+  window.$ = window.briickless = window.bl = window.BriickLess = window.ii = window.ss = briickless;
 
 })(window);
