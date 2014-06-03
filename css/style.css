@@ -1,0 +1,52 @@
+.header {
+    background: #F36E0E;
+    border-bottom: solid 1px #F36E0E;
+}
+
+.header h1 {
+    color: #fff;
+}
+
+.header ul li a {
+    color: #fff;
+}
+
+.content-root {
+    background: #fff;
+}
+
+@media (min-width: 1180px) /* Big desktop */ {
+  body:not(.no-literate) .content-root {
+    background-color: #fff;
+    -webkit-box-shadow: inset 780px 0 #fff, inset 781px 0 #dfe2e7, inset 790px 0 5px -10px rgba(0,0,0,0.1);
+    box-shadow: inset 780px 0 #fff, inset 781px 0 #dfe2e7, inset 790px 0 5px -10px rgba(0,0,0,0.1);
+  }
+}
+
+a.big.button {
+  border: solid 3px #F36E0E;
+}
+a.big.button,
+a.big.button:visited {
+  color: #F36E0E;
+  text-decoration: none;
+}
+a.big.button:hover {
+  background: #F36E0E;
+}
+a.big.button:hover,
+a.big.button:hover:visited {
+  color: #fff;
+}
+
+.menu a,
+.menu a:visited {
+  color: #F36E0E;
+}
+.menu a:hover {
+  color: #F36E0E;
+}
+
+.menu a.active:after {
+  background: #F36E0E;
+}

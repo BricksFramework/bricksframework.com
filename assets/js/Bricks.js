@@ -1,22 +1,28 @@
 /*
-*  Bricks v0.0.5 24-02-2014 
+*  Bricks v0.5.0 02-06-2014 
 *  Created by Giovanny Andres Gongora Granada 
 *  License MIT 
 *  bricksframework.github.io
 */
 
+
+// We are going to build here some functions
+// I need to document it. I promise for the
+// next release.
+// Att: Gioyik
+
 (function (window, undefined) {
 
-var document   = window.document, 
-    _bricks   = window.bricks,
-    _$         = window.$,
-    idExp      = /^#([\w\-]*)$/,
-    classExp   = /^\.([\w\-]*)$/,
-    tagNameExp = /^[\w\-]+$/,
-    tagExp     = /^<([\w:]+)/,
-    slice      = [].slice,
-    splice     = [].splice,
-    noop       = function () {};
+var document = window.document, 
+  _bricks = window.bricks,
+  _$ = window.$,
+  idExp = /^#([\w\-]*)$/,
+  classExp = /^\.([\w\-]*)$/,
+  tagNameExp = /^[\w\-]+$/,
+  tagExp = /^<([\w:]+)/,
+  slice = [].slice,
+  splice = [].splice,
+  noop = function () {};
 
 try {
   slice.call(document.childNodes);
@@ -44,42 +50,6 @@ bricks.fn = bricks.prototype = {
     for (var k in o) {
       this[k] = o[k];
     }
-  },
-
-  each: function(target, callback) {
-    var i, key;
-
-    if (typeof target === 'function') {
-      callback = target;
-      target = this;
-    }
-
-    if (target === this || target instanceof Array) {
-      for (i = 0; i < target.length; ++i) {
-        if (callback.call(target[i], i, target[i]) === false) break;
-      }
-    } else {
-      if (target instanceof bricks) {
-        return bricks.each(slice.call(target), callback);
-      } else if (bricks.isObject(target)) {
-        for (key in target) {
-          if (target.hasOwnProperty(key) && callback.call(target[key], key, target[key]) === false) break;
-        }
-      }
-    }
-
-    return target;
-  },
-
-  set: function (elements) {
-    var i = 0, set = bricks();
-    set.selector = this.selector;
-    set.context = this.context;
-    for (; i < elements.length; i++) {
-      set[i] = elements[i];
-    }
-    set.length = i;
-    return set;
   },
 
   find: function (selector, context) {
@@ -152,6 +122,50 @@ bricks.fn = bricks.prototype = {
     return this.set(els).each(function () {
       return attrs && bricks(this).attr(attrs);
     });
+  },
+
+  pluck: function (prop) {
+    var result = [];
+    this.each(function () {
+      if (this[prop]) result.push(this[prop]);
+    });
+    return result;
+  },
+
+  each: function(target, callback) {
+    var i, key;
+
+    if (typeof target === 'function') {
+      callback = target;
+      target = this;
+    }
+
+    if (target === this || target instanceof Array) {
+      for (i = 0; i < target.length; ++i) {
+        if (callback.call(target[i], i, target[i]) === false) break;
+      }
+    } else {
+      if (target instanceof bricks) {
+        return bricks.each(slice.call(target), callback);
+      } else if (bricks.isObject(target)) {
+        for (key in target) {
+          if (target.hasOwnProperty(key) && callback.call(target[key], key, target[key]) === false) break;
+        }
+      }
+    }
+
+    return target;
+  },
+
+  set: function (elements) {
+    var i = 0, set = bricks();
+    set.selector = this.selector;
+    set.context = this.context;
+    for (; i < elements.length; i++) {
+      set[i] = elements[i];
+    }
+    set.length = i;
+    return set;
   }
 };
 
@@ -179,6 +193,33 @@ bricks.extend({
 
   each: bricks.fn.each,
 
+  trim: function (str) {
+    return str == null ? '' : str.trim ? str.trim() : ('' + str).replace(/^\s+|\s+$/g, '');
+  },
+
+  contains: function (parent, node) {
+    return parent.contains ? parent != node && parent.contains(node) : !!(parent.compareDocumentPosition(node) & 16);
+  },
+
+  matches: function (el, selector) {
+    if (!el || el.nodeType !== 1) return false;
+
+    var matchesSelector = el.webkitMatchesSelector || el.mozMatchesSelector || el.oMatchesSelector || el.matchesSelector;
+    if (matchesSelector) {
+      return matchesSelector.call(el, selector);
+    }
+
+    if (document.querySelectorAll !== undefined) {
+      var nodes = el.parentNode.querySelectorAll(selector);
+
+      for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i] === el) return true;
+      }
+    }
+
+    return false;
+  },
+
   isFunction: function (obj) {
     return typeof obj === 'function';
   },
@@ -202,7 +243,7 @@ bricks.extend({
   isPlainObject: function (obj) {
     if (!obj || !this.isObject(obj) || this.isWindow(obj) || obj.nodeType) {
       return false;
-    } else if (Object.getPrototypeOf(obj) === Object.prototype) {
+    } else if (obj.__proto__ === Object.prototype) {
       return true;
     } else {
       var key;
@@ -213,36 +254,6 @@ bricks.extend({
 
   isWindow: function (obj) {
     return obj !== null && obj !== undefined && (obj === obj.window || 'setInterval' in obj);
-  },
-
-  inArray: function (val, arr, i) {
-    return Array.prototype.indexOf ? arr.indexOf(val, i) : function () {
-        var l = arr.length;
-        i = i ? i < 0 ? Math.max(0, l + i) : i : 0;
-        for (; i < l; i++) if (i in arr && arr[i] === val) return true;
-        return -1;
-      }();
-  },
-
-  contains: function (parent, node) {
-    return parent.contains ? parent != node && parent.contains(node) : !!(parent.compareDocumentPosition(node) & 16);
-  },
-
-  matches: function (el, selector) {
-    if (!el || el.nodeType !== 1) return false;
-    var matchesSelector = el.webkitMatchesSelector || el.mozMatchesSelector || el.oMatchesSelector || el.matchesSelector;
-    if (matchesSelector) {
-      return matchesSelector.call(el, selector);
-    }
-    if (document.querySelectorAll !== undefined) {
-      var nodes = el.parentNode.querySelectorAll(selector);
-
-      for (var i = 0; i < nodes.length; i++) {
-        if (nodes[i] === el) return true;
-      }
-    }
-
-    return false;
   },
 
   parseJSON: function (str) {
@@ -260,6 +271,15 @@ bricks.extend({
     catch (e) { return null; }
   },
 
+  inArray: function (val, arr, i) {
+    return Array.prototype.indexOf ? arr.indexOf(val, i) : function () {
+        var l = arr.length;
+        i = i ? i < 0 ? Math.max(0, l + i) : i : 0;
+        for (; i < l; i++) if (i in arr && arr[i] === val) return true;
+        return -1;
+      }();
+  },
+
   noConflict: function (name) {
     if (name) {
       window.bricks = _bricks;
@@ -267,21 +287,143 @@ bricks.extend({
 
     window.$ = _$;
     return bricks;
-  },
-
-  pluck: function (prop) {
-    var result = [];
-    this.each(function () {
-      if (this[prop]) result.push(this[prop]);
-    });
-    return result;
-  },
-
-  trim: function (str) {
-    return str === null ? '' : str.trim ? str.trim() : ('' + str).replace(/^\s+|\s+$/g, '');
   }
-
 });
+
+bricks.fn.extend({
+
+  addClass: function (value) {
+    if (value && bricks.isString(value)) {
+      return this.each(function (index, el) {
+        if (el.nodeType === 1) {
+          var classNames = value.split(/\s+/);
+          if (!el.className && classNames.length === 1) {
+            el.className = value;
+          } else {
+            var className = el.className;
+
+            for (var i = 0; i < classNames.length; i++) {
+              if (className.indexOf(classNames[i]) === -1) {
+                className += ' ' + classNames[i];
+              }
+            }
+
+            el.className = bricks.trim(className);
+          }
+        }
+      });
+    }
+  },
+
+  removeClass: function (value) {
+    return this.each(function (index, el) {
+      if (value && bricks.isString(value)) {
+        var classNames = value.split(/\s+/);
+        if (el.nodeType === 1 && el.className) {
+          if (classNames.length === 1) {
+           el.className = el.className.replace(value, '');
+          } else {
+            for (var i = 0; i < classNames.length; i++) {
+              el.className = el.className.replace(classNames[i], '');
+            }
+          }
+
+          el.className = bricks.trim(el.className.replace(/\s{2}/g, ' '));
+
+          if (el.className === '') {
+            el.removeAttribute('class');
+          }
+        }
+      }
+    });
+  },
+
+  hasClass: function (value) {
+    var classNames = (this[0] ? this[0] : this).className.split(/\s+/)
+      , values = value.split(/\s+/)
+      , i = 0;
+
+    if (values.length > 1) {
+      var hasClasses = false;
+      for (i = 0; i < values.length; i++) {
+        hasClasses = this.hasClass.call(this, values[i]);
+      }
+      return hasClasses;
+    } else if (bricks.isString(value)) {
+      for (i = 0; i < classNames.length; i++) {
+        if (classNames[i] === value) return true;
+      }
+      return false;
+    }
+  },
+
+  attr: function (name, value) {
+    if (bricks.isObject(name)) {
+      return this.each(function () {
+        for (var key in name) {
+          if (this.setAttribute) {
+            // Firefox 3.5 fix "null + '';"
+            this.setAttribute(key, name[key] === null ? name[key] + '' : name[key]);
+          }
+        }
+      });
+    } else if ((value || value === null || value === false) && bricks.isString(name)) {
+      return this.each(function () {
+        if (this.setAttribute) {
+          // Firefox 3.5 fix "null + '';"
+          this.setAttribute(name, value === null ? value + '' : value);
+        }
+      });
+    } else if (bricks.isString(name)) {
+      var attribute;
+      for (var i = 0; i < this.length; i++) {
+        if (this[i].getAttribute !== undefined && (attribute = this[i].getAttribute(name)) !== null) {
+          break;
+        } else {
+          continue;
+        }
+      }
+      return attribute || undefined;
+    }
+  },
+
+  data: function (name, value) {
+    value = this.attr('data-' + name, serializeValue(value));
+    return value instanceof bricks ? value : deserializeValue(value);
+  },
+
+  removeAttr: function (name) {
+    return this.each(function () {
+      if (name && this.nodeType === 1) {
+        var attrNames = name.split(/\s+/);
+        for (var i = 0; i < attrNames.length; i++) {
+          this.removeAttribute(attrNames[i]);
+        }
+      }
+    });
+  }
+});
+
+function serializeValue (value) {
+  try {
+    return value ? (bricks.isPlainObject(value) || bricks.isArray(value)) &&
+    JSON.stringify ? JSON.stringify(value) : value : value;
+  } catch (e) {
+    return value;
+  }
+}
+
+function deserializeValue (value) {
+  var num;
+  try {
+    return value ? value === 'true' || (value === 'false' ? false :
+    value === 'null' ? null : !isNaN(num = Number(value)) ? num :
+    /^[\[\{]/.test(value) ? bricks.parseJSON(value) : value) : value;
+  } catch (e) {
+    return value;
+  }
+}
+
 var domReady = (function () {
   var addEventListener = !!document.addEventListener,
       isReady = false,
@@ -338,212 +480,25 @@ var domReady = (function () {
 })();
 
 bricks.ready = bricks.fn.ready = domReady;
-bricks.fn.extend({
 
-  addClass: function (value) {
-    if (value && bricks.isString(value)) {
-      return this.each(function (index, el) {
-        if (el.nodeType === 1) {
-          var classNames = value.split(/\s+/);
-          if (!el.className && classNames.length === 1) {
-            el.className = value;
-          } else {
-            var className = el.className;
-
-            for (var i = 0; i < classNames.length; i++) {
-              if (className.indexOf(classNames[i]) === -1) {
-                className += ' ' + classNames[i];
-              }
-            }
-
-            el.className = bricks.trim(className);
-          }
-        }
-      });
-    }
-  },
-
-  removeClass: function (value) {
-    return this.each(function (index, el) {
-      if (value && bricks.isString(value)) {
-        var classNames = value.split(/\s+/);
-        if (el.nodeType === 1 && el.className) {
-          if (classNames.length === 1) {
-           el.className = el.className.replace(value, '');
-          } else {
-            for (var i = 0; i < classNames.length; i++) {
-              el.className = el.className.replace(classNames[i], '');
-            }
-          }
-
-          el.className = bricks.trim(el.className.replace(/\s{2}/g, ' '));
-
-          if (el.className === '') {
-            el.removeAttribute('class');
-          }
-        }
-      }
-    });
-  },
-
-  hasClass: function (value) {
-    var classNames = (this[0] ? this[0] : this).className.split(/\s+/),
-        values = value.split(/\s+/),
-        i = 0;
-
-    if (values.length > 1) {
-      var hasClasses = false;
-      for (i = 0; i < values.length; i++) {
-        hasClasses = this.hasClass.call(this, values[i]);
-      }
-      return hasClasses;
-    } else if (bricks.isString(value)) {
-      for (i = 0; i < classNames.length; i++) {
-        if (classNames[i] === value) return true;
-      }
-      return false;
-    }
-  },
-
-  attr: function (name, value) {
-    if (bricks.isObject(name)) {
-      return this.each(function () {
-        for (var key in name) {
-          if (this.setAttribute) {
-            this.setAttribute(key, name[key] === null ? name[key] + '' : name[key]);
-          }
-        }
-      });
-    } else if ((value || value === null || value === false) && bricks.isString(name)) {
-      return this.each(function () {
-        if (this.setAttribute) {
-          this.setAttribute(name, value === null ? value + '' : value);
-        }
-      });
-    } else if (bricks.isString(name)) {
-      var attribute;
-      for (var i = 0; i < this.length; i++) {
-        if (this[i].getAttribute !== undefined && (attribute = this[i].getAttribute(name)) !== null) {
-          break;
-        } else {
-          continue;
-        }
-      }
-      return attribute || undefined;
-    }
-  },
-
-  data: function (name, value) {
-    value = this.attr('data-' + name, serializeValue(value));
-    return value instanceof bricks ? value : deserializeValue(value);
-  },
-
-  removeAttr: function (name) {
-    return this.each(function () {
-      if (name && this.nodeType === 1) {
-        var attrNames = name.split(/\s+/);
-        for (var i = 0; i < attrNames.length; i++) {
-          this.removeAttribute(attrNames[i]);
-        }
-      }
-    });
-  }
-});
-
-function serializeValue (value) {
-  try {
-    return value ? (bricks.isPlainObject(value) || bricks.isArray(value)) &&
-    JSON.stringify ? JSON.stringify(value) : value : value;
-  } catch (e) {
-    return value;
-  }
-}
-
-function deserializeValue (value) {
-  var num;
-  try {
-    return value ? value === 'true' || (value === 'false' ? false :
-    value === 'null' ? null : !isNaN(num = Number(value)) ? num :
-    /^[\[\{]/.test(value) ? bricks.parseJSON(value) : value) : value;
-  } catch (e) {
-    return value;
-  }
-}
-bricks.fn.extend({
-
-  filter: function (obj) {
-    if (bricks.isFunction(obj)) {
-      var els = [];
-      this.each(function (index, el) {
-        if (obj.call(el, index)) {
-          els.push(el);
-        }
-      });
-      return bricks(els);
-    } else {
-      return this.filter(function () {
-        return bricks.matches(this, obj);
-      });
-    }
-  },
-
-  not: function (selector) {
-    return this.filter(function () {
-      return !bricks.matches(this, selector);
-    });
-  },
-
-  eq: function (index) {
-    return index === -1 ? bricks(slice.call(this, this.length -1)) : bricks(slice.call(this, index, index + 1));
-  },
-
-  get: function (index) {
-    return index === undefined ? slice.call(this) : this[index >= 0 ? index : index + this.length];
-  },
-
-  clone: function () {
-    var els = [];
-    this.each(function () {
-      els.push(this.cloneNode(true));
-    });
-    return bricks(els);
-  },
-
-  toggle: function (state) {
-    return this.each(function () {
-      var el = $(this);
-      el[(state === undefined ? el.css('display') === 'none' : state) ? 'show': 'hide']();
-    });
-  },
-
-  toggleClass: function (name, state) {
-    return this.each(function (i) {
-      var el = $(this);
-      name = bricks.isFunction(name) ? name.call(this, i, el.attr('class'), state) : bricks.isString(name) ? name : '';
-      bricks.each(name.split(/\s+/g), function (i, klass) {
-        el[(state === undefined ? !el.hasClass(klass) : state) ? 'addClass' : 'removeClass'](klass);
-      });
-    });
-  }
-});
 var _eventId = 1,
-    c = window.c = {},
-    returnTrue = function () { return true; },
-    returnFalse = function () { return false; },
-    ignoreProperties = /^([A-Z]|layer[XY]$)/,
-    sepcialExp = /click|mouse/,
-    mouse = {
+  c = window.c = {},
+  returnTrue = function () { return true; },
+  returnFalse = function () { return false; },
+  ignoreProperties = /^([A-Z]|layer[XY]$)/,
+  sepcialExp = /click|mouse/,
+  mouse = {
       mouseenter: 'mouseover',
       mouseleave: 'mouseout'
-    },
-    eventMethods = {
+  },
+  eventMethods = {
       preventDefault: 'isDefaultPrevented',
       stopImmediatePropagation: 'isStopImmediatePropagation',
       stopPropagation: 'isPropagationStopped'
-    },
-    opcHandler,
-    opcCache = {},
-    createEvent = !!document.createEvent;
+  },
+  opcHandler,
+  opcCache = {},
+  createEvent = !!document.createEvent;
 
 function getEventParts (event) {
   var parts = ('' + event).split('.');
@@ -569,9 +524,9 @@ function inHandlers (parts, handlers) {
 
 function getEventHandlers (id, event) {
   var parts = getEventParts(event),
-      handlers = [],
-      tmp,
-      ns;
+    handlers = [],
+    tmp,
+    ns;
 
   event = realEvent(parts.ev);
   ns = parts.ns;
@@ -602,9 +557,9 @@ function getEventHandlers (id, event) {
 
 function createEventHandler (el, event, callback, _callback) {
   var id = getEventId(el),
-      handlers = getEventHandlers(id, event),
-      parts = getEventParts(event),
-      cb = callback || _callback;
+    handlers = getEventHandlers(id, event),
+    parts = getEventParts(event),
+    cb = callback || _callback;
 
   var fn = function (event) {
     if (!event.liveTarget) event.liveTarget = event.target || event.srcElement;
@@ -626,16 +581,16 @@ function createEventHandler (el, event, callback, _callback) {
 
 function createProxy (event) {
   var proxy = { originalEvent: event };
-  function outsideloop() {
-      this[eventMethods[name]] = returnTrue;
-      return event[name].apply(event, arguments);
-  }
+
   for (var key in event) {
     if (!ignoreProperties.test(key) && event[key] !== undefined) {
       proxy[key] = event[key];
     }
     for (var name in eventMethods) {
-      proxy[name] = outsideloop;
+      proxy[name] = function () {
+        this[eventMethods[name]] = returnTrue;
+        return event[name].apply(event, arguments);
+      };
       proxy[eventMethods[name]] = returnFalse;
     }
   }
@@ -679,8 +634,8 @@ function addEvent (el, events, callback, selector) {
           if (!related || (related !== this && !bricks.contains(this, related))) {
             return _fn.apply(this, arguments);
           }
-        };
-      };
+        }
+      }
     }
 
     var handler = createEventHandler(el, event, fn && fn() || callback, _callback);
@@ -714,8 +669,8 @@ function removeEvent (el, events, callback, selector) {
   }
 
   bricks.each(events.split(/\s/), function (index, event) {
-    var handlers = getEventHandlers(id, event),
-        parts = getEventParts(event);
+    var handlers = getEventHandlers(id, event)
+      , parts = getEventParts(event);
 
     event = realEvent(parts.ev);
 
@@ -728,7 +683,7 @@ function removeEvent (el, events, callback, selector) {
           var name = 'on' + event;
           if (bricks.isString(el[name])) el[name] = null;
           el.detachEvent(name, handlers[i]);
-          if (opcCache[el.nodeName]) { // Remove custom event handler on IE8.
+          if (opcCache[el.nodeName]) { 
             el.detachEvent('onpropertychange', opcHandler);
             delete opcCache[el.nodeName];
           }
@@ -765,7 +720,7 @@ bricks.fn.extend({
 
       var parts = getEventParts(event.type || event);
 
-      event = bricks.Event(event);
+      event = bricks.Event(event)
       event.data = data || {};
 
       if (bricks.isString(event.data) && !bricks.isString(data) && JSON.stringify) {
@@ -776,9 +731,9 @@ bricks.fn.extend({
         el.dispatchEvent(event);
       } else {
         if (el._eventId > 0) {
-          try { // fire event in < IE 9
+          try { 
             el.fireEvent('on' + event.type, event);
-          } catch (e) { // solution to trigger custom events in < IE 9
+          } catch (e) { 
             if (!opcCache[el.nodeName]) {
               opcHandler = opcHandler || function (ev) {
                 if (ev.eventName && ev.srcElement._eventId) {
@@ -801,7 +756,6 @@ bricks.fn.extend({
       if (!event.isPropagationStopped()) {
         var parent = el.parentNode || el.ownerDocument;
         if (parent && parent._eventId > 0) {
-          // bricks use `liveTarget` instead of creating a own Event object that modifies `target` property.
           event.liveTarget = el;
           bricks(parent).trigger(event, data);
         } else {
@@ -862,9 +816,8 @@ bricks.Event = function (type, props) {
 
   return event;
 };
-
 var wrapTags = /^(select|fieldset|table|tbody|tfoot|td|tr|colgroup)$/i,
-    wrapMap = {
+  wrapMap = {
       thead: ['<table>', '</table>', 1],
       col: ['<table><colgroup>', '</colgroup></table>', 2],
       tr: ['<table><tbody>', '</tbody></table>', 2],
@@ -893,10 +846,10 @@ function normalize (node) {
 
 function wrap (node) {
   return typeof node === 'string' && node !== '' ? function () {
-    var tag = tagExp.exec(node),
-        el = document.createElement('div'),
-        wrap = tag ? wrapMap[tag[1].toLowerCase()] : null,
-        level = wrap ? wrap[2] + 1 : 1;
+    var tag = tagExp.exec(node)
+      , el = document.createElement('div')
+      , wrap = tag ? wrapMap[tag[1].toLowerCase()] : null
+      , level = wrap ? wrap[2] + 1 : 1;
     el.innerHTML = wrap ? (wrap[0] + node + wrap[1]) : node;
     while (level--) el = el.firstChild;
     return [el];
@@ -966,8 +919,7 @@ bricks.fn.extend({
     return this.each(function () {
       try {
         if ((bricks.isString(html) || bricks.isNumeric(html)) && !wrapTags.test(this.tagName)) {
-          var result = this.innerHTML = html;
-          return result;
+          return this.innerHTML = html;
         }
       } catch (e) {}
       var el = this;
@@ -1006,6 +958,7 @@ bricks.fn.extend({
     });
     return selector === undefined ? bricks(children) : bricks(children).filter(selector);
   },
+
 
   text: function (text) {
     if (text === undefined) {
@@ -1051,30 +1004,147 @@ bricks.fn.extend({
 });
 
 bricks.each({
+
   appendTo: 'append',
   prependTo: 'prepend',
   insertBefore: 'before',
   insertAfter: 'after'
-}, function (key, value) {
+
+}, 
+
+function (key, value) {
   bricks.fn[key] = function (selector) {
     return bricks(selector)[value](this);
   };
 });
+bricks.fn.extend({
+
+  filter: function (obj) {
+    if (bricks.isFunction(obj)) {
+      var els = [];
+      this.each(function (index, el) {
+        if (obj.call(el, index)) {
+          els.push(el);
+        }
+      });
+      return bricks(els);
+    } else {
+      return this.filter(function () {
+        return bricks.matches(this, obj);
+      });
+    }
+  },
+
+  not: function (selector) {
+    return this.filter(function () {
+      return !bricks.matches(this, selector);
+    });
+  },
+
+  eq: function (index) {
+    return index === -1 ? bricks(slice.call(this, this.length -1)) : bricks(slice.call(this, index, index + 1));
+  },
+
+  get: function (index) {
+    return index === undefined ? slice.call(this) : this[index >= 0 ? index : index + this.length];
+  },
+
+  clone: function () {
+    var els = [];
+    this.each(function () {
+      els.push(this.cloneNode(true));
+    });
+    return bricks(els);
+  },
+
+  toggle: function (state) {
+    return this.each(function () {
+      var el = $(this);
+      el[(state === undefined ? el.css('display') === 'none' : state) ? 'show': 'hide']();
+    });
+  },
+
+  toggleClass: function (name, state) {
+    return this.each(function (i) {
+      var el = $(this);
+      name = bricks.isFunction(name) ? name.call(this, i, el.attr('class'), state) : bricks.isString(name) ? name : '';
+      bricks.each(name.split(/\s+/g), function (i, klass) {
+        el[(state === undefined ? !el.hasClass(klass) : state) ? 'addClass' : 'removeClass'](klass);
+      });
+    });
+  }
+});
+bricks.fn.extend({
+
+  css: function (prop, value) {
+    if (bricks.isString(prop) && value === undefined) {
+      return this.length > 0 ? getPropertyValue(this[0], prop) : undefined;
+    }
+
+    return this.each(function () {
+      if (this.style !== undefined) {
+        if (bricks.isString(prop)) {
+          this.style[prop] = value;
+        } else {
+          for (var key in prop) {
+            this.style[key] = prop[key];
+          }
+        }
+      }
+    });
+  },
+
+  hide: function () {
+    return this.css('display', 'none');
+  },
+
+  show: function () {
+    return this.each(function () {
+      if (this.style !== undefined) {
+        try { // This don't work in IE8.
+          if (this.style.display === 'none') this.style.display = null;
+        } catch (e) {}
+        if (getPropertyValue(this, 'display') === 'none') this.style.display = 'block';
+      }
+    });
+  }
+});
+
+function getPropertyValue(el, prop) {
+  var value = '';
+  if (document.defaultView && document.defaultView.getComputedStyle) {
+    prop = prop.replace(/([A-Z])/g, '-$1').toLowerCase();
+    value = document.defaultView.getComputedStyle(el, '').getPropertyValue(prop);
+  }
+
+  if (!!value && value.length) {
+    value = value;
+  } else if (el.currentStyle) {
+    value = el.currentStyle[prop] || el.style[prop];
+  } else {
+    value = el.style[prop];
+  }
+
+  return !!value ? value : '';
+}
+
 function ajaxJSONP (url, options) {
   var name = (name = /callback\=([A-Za-z0-9\-\.]+)/.exec(url)) ? name[1] : 'jsonp' + (+new Date()),
-      el = document.createElement('script'),
-      abortTimeout = null,
-      cleanUp = function () {
+    el = document.createElement('script'),
+    abortTimeout = null,
+
+    cleanUp = function () {
         if (abortTimeout !== null) clearTimeout(abortTimeout);
         bricks(el).remove();
         try { delete window[name]; }
         catch (e) { window[name] = undefined; }
-      },
-      abort = function (error) {
+    },
+
+    abort = function (error) {
         cleanUp();
         if (error === 'timeout') window[name] = noop;
         if (bricks.isFunction(options.error)) options.error(error, options);
-      };
+    };
 
   el.onerror = function () {
     abort('error');
@@ -1122,16 +1192,16 @@ bricks.extend({
     if (!url) return options.xhr();
 
     var xhr = options.xhr(),
-        error = 'error',
-        abortTimeout = null,
-        jsonp = options.dataType === 'jsonp',
-        mime = {
+      error = 'error',
+      abortTimeout = null,
+      jsonp = options.dataType === 'jsonp',
+      mime = {
           html: 'text/html',
           text: 'text/plain',
           xml: 'application/xml, text/xml',
           json: 'application/json'
         },
-        params = bricks.param(options.data) !== '' ? bricks.param(options.data) : options.data;
+      params = bricks.param(options.data) !== '' ? bricks.param(options.data) : options.data;
 
     for (var k in mime) {
       if (url.indexOf('.' + k) !== -1 && !options.dataType) options.dataType = k;
@@ -1219,11 +1289,12 @@ bricks.extend({
     timeout: 0,
     type: 'GET',
     url: '',
+
     xhr: function () {
       var xhr = null;
       if (window.XMLHttpRequest) {
         xhr = new XMLHttpRequest();
-      } else if (window.ActiveXObject) { 
+      } else if (window.ActiveXObject) { // < IE 9
         xhr = new ActiveXObject('Microsoft.XMLHTTP');
       }
       return xhr;
@@ -1251,60 +1322,7 @@ bricks.extend({
   }
 });
 
-bricks.fn.extend({
 
-  css: function (prop, value) {
-    if (bricks.isString(prop) && value === undefined) {
-      return this.length > 0 ? getPropertyValue(this[0], prop) : undefined;
-    }
-
-    return this.each(function () {
-      if (this.style !== undefined) {
-        if (bricks.isString(prop)) {
-          this.style[prop] = value;
-        } else {
-          for (var key in prop) {
-            this.style[key] = prop[key];
-          }
-        }
-      }
-    });
-  },
-
-  hide: function () {
-    return this.css('display', 'none');
-  },
-
-  show: function () {
-    return this.each(function () {
-      if (this.style !== undefined) {
-        try { // This don't work in IE8.
-          if (this.style.display === 'none') this.style.display = null;
-        } catch (e) {}
-        if (getPropertyValue(this, 'display') === 'none') this.style.display = 'block';
-      }
-    });
-  }
-});
-
-function getPropertyValue(el, prop) {
-  var value = '';
-  if (document.defaultView && document.defaultView.getComputedStyle) {
-    prop = prop.replace(/([A-Z])/g, '-$1').toLowerCase();
-    value = document.defaultView.getComputedStyle(el, '').getPropertyValue(prop);
-  }
-
-  if (!!value && value.length) {
-    value = value;
-  } else if (el.currentStyle) {
-    value = el.currentStyle[prop] || el.style[prop];
-  } else {
-    value = el.style[prop];
-  }
-
-  return !!value ? value : '';
-}
-
-  window.$ = window.bricks = window.bk = bricks;
+  window.$ = window.bricks = window.bs = window._ = bricks;
 
 })(window);
