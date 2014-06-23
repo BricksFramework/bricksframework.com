@@ -1,3 +1,8 @@
+body {
+  font-family: Helvetica Neue, Open Sans, sans-serif;
+  font-size: 100%;
+}
+
 .header {
     background: #F36E0E;
     border-bottom: solid 1px #F36E0E;
@@ -49,4 +54,24 @@ a.big.button:hover:visited {
 
 .menu a.active:after {
   background: #F36E0E;
+}
+
+#footer .container {
+    padding: 2em;
+}
+
+#footer .container .row div p {
+    margin-top: 1em;
+}
+
+#footer {
+    background: #7A7877;
+}
+
+#footer p {
+    color: #FFF;
+}
+
+div#iconsocial {
+    color: #fff;
 }

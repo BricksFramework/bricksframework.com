@@ -3,37 +3,13 @@
 body {
     font-family: Helvetica Neue,Open Sans,sans-serif;
 }
-
-div#notice {
-    height: 30px;
-}
 a {
     text-decoration: none;
     color: #fff;
 }
-div#bricks-anim {
-    padding-top: 5%;
-}
-h2#subtitle {
-	padding-top: 10px;
-}
-
 div#iconsocial {
     color: #fff;
 }
-
-#one {
-    margin-bottom: 1em;
-}
-
-#two {
-    margin-bottom: 1em;
-}
-
-#three {
-    margin-bottom: 1em;
-}
-
 #footer .container {
     padding: 2em;
 }
@@ -41,15 +17,6 @@ div#iconsocial {
 #footer .container .row div p {
     margin-top: 1em;
 }
-
-header {
-    text-align: justify;
-    height: 8em;
-    padding: 2em 5%;
-    background: #F36E0E;
-    color: #fff;
-}
-
 #footer {
     background: #7A7877;
 }
@@ -57,37 +24,12 @@ header {
 #footer p {
     color: #FFF;
 }
-
-#main {
-    background: #fff;
-    height: 70%;
-}
-
-body, html {
-  height: 100%;
-}
-
-#glass {
-    background: #7A7877;
+header {
+    text-align: justify;
+    height: 8em;
+    padding: 2em 5%;
+    background: #F36E0E;
     color: #fff;
-}
-
-#glass .container {
-    padding-top: 2em;
-    padding-bottom: 2em;
-}
-
-#main .container .row #main-first-first {
-    padding: 3em;
-}
-
-#main .container .row #main-first-second {
-    padding: 3em;
-}
-
-#caract {
-    padding-top: 2em;
-    padding-bottom: 2em;
 }
 
 header::after {
