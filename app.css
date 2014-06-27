@@ -1,80 +1,77 @@
-@import url("http://fonts.googleapis.com/css?family=Montserrat:700|Open+Sans:300");
+@import url(http://fonts.googleapis.com/css?family=Lato:300);
 
-body {
-    font-family: Helvetica Neue,Open Sans,sans-serif;
-}
-
-div#notice {
-    height: 30px;
-}
-a {
-    text-decoration: none;
-    color: #fff;
-}
-div#bricks-anim {
-    padding-top: 5%;
-}
-h2#subtitle {
-	padding-top: 10px;
-}
-
-div#iconsocial {
-    color: #fff;
-}
-
-#one {
-    margin-bottom: 1em;
-}
-
-#two {
-    margin-bottom: 1em;
-}
-
-#three {
-    margin-bottom: 1em;
-}
-
-#footer .container {
-    padding: 2em;
-}
-
-#footer .container .row div p {
-    margin-top: 1em;
+body, html {
+    height: 100%;
+    background: #F36E0E;
+    color: #FFF;
+    font-family: 'Lato', sans-serif;
 }
 
 header {
-    text-align: justify;
-    height: 8em;
-    padding: 2em 5%;
-    background: #F36E0E;
+    padding-top: 25px;
+    width: 100%;
+    position: relative;
+}
+
+header a {
+    font-size: 20px;
+}
+
+a {
+    text-decoration: none;
     color: #fff;
+    font-family: 'Lato', sans-serif;
 }
 
-#footer {
-    background: #7A7877;
+#footer-links a {
+    font-size: 20px;
+    padding-right: 15px;
+    float: right;
 }
 
-#footer p {
-    color: #FFF;
+#root {
+    height: 90%;
+    width: 100%;
+    position: relative;
+    vertical-align: middle;
 }
 
-#main {
-    background: #fff;
-    height: 70%;
+#body-l {
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+    font-weight: 300px;
+    letter-spacing: 1.5px;
+    padding-top: 2%;
 }
 
-body, html {
-  height: 100%;
+#body-l img {
+    width: 190px;
+}
+
+#body-l p {
+    font-size: 62px;
+    line-height: 62px;
+    margin-bottom: 25px;
+}
+
+#body-l h2 {
+    font-size: 22px;
+    line-height: 22px;
+    margin-bottom: 35px;
 }
 
 #glass {
-    background: #7A7877;
+    background: #303030;
     color: #fff;
 }
 
 #glass .container {
     padding-top: 2em;
     padding-bottom: 2em;
+}
+
+#glass h3 {
+    font-size: 22px;
 }
 
 #main .container .row #main-first-first {
@@ -88,58 +85,111 @@ body, html {
 #caract {
     padding-top: 2em;
     padding-bottom: 2em;
+    background: #fff;
+    color: #000;
 }
 
-header::after {
-    content: '';
-    display: inline-block;
-    width: 100%;
+#concept {
+    background: #D5620F;
+    color: #fff;
+    padding-top: 2%;
+    padding-bottom: 2%;
 }
 
-header > div,
-header > div::before,
-header nav,
-header > div h1 {
-    display: inline-block;
-    vertical-align: middle;
-    text-align: left;
+#concept h1 {
+    font-size: 25px;
 }
 
-header > div {
-    height: 100%;
+#concept img {
+    width: 500px;
 }
 
-header > div::before {
-    content: '';
-    height: 100%;
+#footer {
+    background: #303030;
 }
 
-header > div h1 {
-    font-size: 2em;
+#footer p {
+    color: #FFF;
 }
 
-header nav a {
-    padding: 0 0.6em;
-    white-space: nowrap;
+#main {
+    background: #fff;
+    height: 70%;
 }
 
-header nav a:last-child {
-    padding-right: 0;
+div#bricks-anim {
+    padding-top: 5%;
+}
+h2#subtitle {
+    padding-top: 10px;
 }
 
-@media screen and (max-width: 720px){
-    
-    header {
-        height: auto;
+div#iconsocial {
+    color: #fff;
+}
+
+#one {
+    margin-bottom: 3em;
+}
+
+#one img {
+    width: 170px;
+}
+
+#one h3 {
+    font-size: 20px;
+}
+
+#two {
+    margin-bottom: 3em;
+}
+
+#two h3 {
+    font-size: 20px;
+}
+
+#two img {
+    width: 170px;
+}
+
+#three {
+    margin-bottom: 3em;
+}
+
+#three h3 {
+    font-size: 20px;
+}
+
+#three img {
+    width: 170px;
+}
+
+#four img {
+    width: 170px;
+}
+
+#four h3 {
+    font-size: 20px;
+}
+
+#footer .container {
+    padding: 2em;
+}
+
+#footer .container .row div p {
+    margin-top: 1em;
+}
+
+@media (min-width: 1200px) {
+    #caract .container {
+        width: 970px;
     }
-    
-    header > div,
-    header > div h1,
-    header nav {
-        height: auto;
-        width: auto;
-        display: block;
-        text-align: center;
-    }
-    
+}
+
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 768px) {
+
 }
