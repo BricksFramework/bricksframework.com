@@ -9,17 +9,47 @@
   </head>
   <body>
     <div id="root">
-      <header>
-        <div id="navigation" class="container">
-          <a href="">Bricks Framework</a>
+      <div id="headerr">
+        <div class="container">
+          <header class="group">
+              <nav class="nav nav-left">
+                  <ul>
+                      <li>
+                        <img src="assets/img/bricks.svg">
+                      </li>
+                  </ul>
+              </nav>
+              <nav class="nav nav-right">
+                  <ul>
+                      <li>
+                        <a href="http://addons.bricksframework.com">Addons</a>
+                      </li>
+                      <li>
+                        <a href="/css">CSS</a>
+                      </li>
+                      <li>
+                        <a href="/javascript">Javascript</a>
+                      </li>
+                      <li>
+                        <a href="http://builder.bricksframework.com">Builder</a>
+                      </li>
+                      <li>
+                        <a href="http://editor.bricksframework.com">Editor</a>
+                      </li>
+                      <li>
+                        <a href="/download">Download</a>
+                      </li>
+                  </ul>
+              </nav>
+          </header>
         </div>
-      </header>
+      </div>
       <div id="body-l">
         <div class="container">
           <div id="row-lo" class="row">
             <div class="col-x-12 col-s-12 col-m-12 col-l-12">
-              <img src="assets/img/bricks.svg">
-              <p>A modern framework to keep your projects awesome and light</p>
+              <h1>A modern framework to keep your project awesome and light</h1>
+              <button class="btn btn-white-outline">Download</button>
             </div>
           </div>
         </div>
@@ -43,7 +73,7 @@
           <div id="info-1" class="col-x-12 col-s-12 col-m-4 col-l-4">
             <div class="row">
               <div class="col-x-12 col-s-12 col-m-12 col-l-12">
-                <li class="icon icon-question icon-5x"></li>
+                <img src="assets/img/mobile.png">
               </div>
               <div class="col-x-12 col-s-12 col-m-12 col-l-12">
                 <h3>What is Bricks?</h3>
@@ -54,7 +84,7 @@
             </div>
           <div id="info-2" class="col-x-12 col-s-12 col-m-4 col-l-4">
             <div class="col-x-12 col-s-12 col-m-12 col-l-12">
-              <li class="icon icon-user icon-5x"></li>
+              <img src="assets/img/sass.png">
             </div>
             <div class="col-x-12 col-s-12 col-m-12 col-l-12">
               <h3>Who is it for?</h3>
@@ -64,7 +94,7 @@
           </div>
           <div id="info-3" class="col-x-12 col-s-12 col-m-4 col-l-4">
             <div class="col-x-12 col-s-12 col-m-12 col-l-12">
-              <li class="icon icon-heart icon-5x"></li>
+              <img src="assets/img/components.png">
             </div>
             <div class="col-x-12 col-s-12 col-m-12 col-l-12">
               <h3>Why you'll love it?</h3>
@@ -75,7 +105,7 @@
         </div>
       </div>
     </div>
-  <!-- More info content -->
+  <!-- More info content 
     <div id="caract">
       <div class="container">
         <div class="row" id="one">
@@ -119,28 +149,73 @@
           </div>
         </div>
       </div>
+    </div> -->
+  <!-- content reduced -->
+    <div id="love">
+      <div class="container">
+        <div class="row">
+          <div class="col-x-12 col-s-12 col-m-12 col-l-12" align="center">
+            <p id="title-love">Why you'll love it?</p>
+            <p>There are some truly beautiful websites that have been created with Bricks Framework.</p>
+            <div class="row">
+              <div id="templates" class="col-x-6 col-s-6 col-m-3 col-l-3" align="center">
+                <img src="assets/img/heart.svg">
+                <p>Built and maintained by developers passionated about web technologies and web standars. Open sourced and managed through <a href="https://github.com/BricksFramework">Github</a>.</p>
+                <a href="https://github.com/BricksFramework">Check the source on Github <i class="icon icon-arrow-right"></i></a>
+              </div>
+              <div id="templates" class="col-x-6 col-s-6 col-m-3 col-l-3" align="center">
+                <img src="assets/img/box.svg">
+                <p>Bricks is light and sometimes you need more things to improve your project. You can extend Bricks functionality and design with awesome addons.</p>
+                <a href="http://addons.bricksframework.com">Check addons section <i class="icon icon-arrow-right"></i></a>
+              </div>
+              <div id="templates" class="col-x-6 col-s-6 col-m-3 col-l-3" align="center">
+                <img src="assets/img/laptop.svg">
+                <p>Spend less time managing screen sizes and more time on building a perfect design. Your project will look amazing across all the modern devices and browsers</p>
+                <a href="/css">Check CSS docs <i class="icon icon-arrow-right"></i></a>
+              </div>
+              <div id="templates" class="col-x-6 col-s-6 col-m-3 col-l-3" align="center">
+                <img src="assets/img/pencil.svg">
+                <p>Do not load more than you need on your project. Build a custom library with only the components that are important and usefull for you.</p>
+                <a href="http://builder.bricksframework.com">Check builder section <i class="icon icon-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>      
+    </div>
+  <!-- try -->
+    <div id="try">
+      <div class="container">
+        <div class="row">
+          <div class="col-x-12 col-s-12 col-m-12 col-l-12" align="center">
+            <p id="title-try">Get it a try!</p>
+            <p>Start checking our docs and show us what you can do</p>
+            <div id="buttons-try">
+              <button class="btn btn-white-outline">CSS docs</button>
+              <button class="btn btn-white-outline">Javascript docs</button>
+            </div>
+          </div>
+        </div>
+      </div>      
     </div>
   <!-- Footer -->
     <div id="footer">
       <div class="container">
-        <div id="iconsocial" class="row" align="center">
-          <div class="col-x-3 col-s-3 col-m-3 col-l-3">
-            <a target="_blank" href="https://www.facebook.com/BricksFramework"><li class="icon icon-facebook icon-2x"></li></a>
-          </div>
-          <div class="col-x-3 col-s-3 col-m-3 col-l-3">
-            <a target="_blank" href="https://www.github.com/BricksFramework"><li class="icon icon-github icon-2x"></li></a>
-          </div>
-          <div class="col-x-3 col-s-3 col-m-3 col-l-3">
-            <a target="_blank" href="https://www.twitter.com/BricksFramework"><li class="icon icon-twitter icon-2x"></li></a>
-          </div>
-          <div class="col-x-3 col-s-3 col-m-3 col-l-3">
-            <li class="icon icon-google-plus icon-2x"></li>
-          </div>
-        </div>  
         <div class="row">
-          <div class="col-x-12 col-s-12 col-m-12 col-l-12" align="center">
+          <div class="col-x-12 col-s-12 col-m-6 col-l-6">
+            <div class="nav-bc bc-sect">
+                <ul>
+                    <li><a href="https://github.com/BricksFramework">Github</a></li>
+                    <li><a href="https://twitter.com/BricksFramework">Twitter</a></li>
+                    <li><a href="https://facebook.com/BricksFramework">Facebook</a></li>
+                    <li><a href="https://gittip.com/BricksFramework">Gittip</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+            </div>
+          </div>
+          <div class="col-x-12 col-s-12 col-m-6 col-l-6">
             <p>
-              Created by <a href="http://twitter.com/Gioyik">@Gioyik</a> with <i class="icon icon-heart"></i>. Licensed under MIT.
+              Created by <a href="http://twitter.com/Gioyik">@Gioyik</a> with <i id="love-icon" class="icon icon-heart"></i>. Licensed under MIT.
             </p>
           </div>
         </div>  
