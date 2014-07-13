@@ -7,17 +7,18 @@ body, html {
     font-family: 'Lato', sans-serif;
 }
 
-header {
-    padding-top: 25px;
+#root #headerr .container {
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 header a {
     font-size: 15px;
-    color: #F36E0E;
+    color: #fff;
 }
 
 header li img {
-    width: 45px;
+    width: 30px;
 }
 
 a {
@@ -128,13 +129,12 @@ a {
 }
 
 #headerr {
-    background: #fff;
     color: #000;
 }
 
 #love {
-    background: #fff;
-    color: #303030;
+    background: url(assets/img/bg15.jpg) no-repeat fixed center top / cover transparent;
+    color: #fff;
 }
 
 #love p#title-love {
@@ -158,10 +158,6 @@ a {
 #love img {
     width: 150px;
     height: 150px;
-}
-
-#love a {
-    color: #000;
 }
 
 #love div#templates p {
