@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width">
+
+  <title>Docs - Bricks Framework</title>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/legacy.js'></script>
+  <script src='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/flatdoc.js'></script>
+
+  <link  href='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/theme-white/style.css' rel='stylesheet'>
+  <script src='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/theme-white/script.js'></script>
+  <link  href='css/style.css' rel='stylesheet'>
+
+  <meta content="Your Project" property="og:title">
+  <meta content="Your Project description goes here." name="description">
+
+  <link href='http://fonts.googleapis.com/css?family=Fira+Sans:300' rel='stylesheet' type='text/css'>
+
+  <script>
+    Flatdoc.run({
+      fetcher: Flatdoc.file('http://bricksframework.com/docs/README.md')
+    });
+  </script>
+</head>
+<body role='flatdoc'>
+
+  <div class='header'>
+    <div class='left'>
+      <h1>Bricks Framework</h1>
+      <ul>
+        <li><a href='/docs'>Docs</a></li>
+        <li><a href='/download'>Download</a></li>
+        <li><a href='/designer'>Designer</a></li>
+      </ul>
+    </div>
+    <div class='right'>
+        <li><a target="_external" href="https://twitter.com/BricksFramework">Twitter</a></li>
+        <li><a target="_external" href="https://facebook.com/BricksFramework">Facebook</a></li>
+        <li><a target="_external" href="https://github.com/ZydiaLabs/Bricks">Github</a></li>
+    </div>
+  </div>
+
+  <div class='content-root'>
+    <div class='menubar'>
+      <div class='menu section' role='flatdoc-menu'></div>
+    </div>
+    <div role='flatdoc-content' class='content'></div>
+  </div>
+
+</body>
+</html>

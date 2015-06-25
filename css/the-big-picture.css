@@ -1,0 +1,36 @@
+body {
+	margin-top: 50px;
+	margin-bottom: 50px;
+	background: none;
+  color: #fff;
+  font-family: 'Fira Sans', sans-serif;
+}
+
+.full {
+  background: #F36E0E; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.navbar-inverse {
+  background: #fff;
+  border: none;
+  color: #F36E0E;
+  border-color: #F36E0E;
+}
+
+.navbar-toggle,
+.navbar-toggle:focus, 
+.navbar-toggle:hover {
+  background: #F36E0E;
+  border: #F36E0E;
+}
+
+.navbar-inverse a.navbar-brand,
+.navbar-inverse a.navbar-brand:hover,
+.navbar-inverse ul.navbar-nav li a,
+.navbar-inverse ul.navbar-nav li a:hover {
+  color: #F36E0E;
+}

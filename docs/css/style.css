@@ -1,0 +1,33 @@
+body {
+  font-family: 'Fira Sans', sans-serif !important;
+}
+
+.content-root {
+  background-color: #fff !important;
+}
+
+.header {
+  background: #fff;
+  border-bottom: 1px solid #F36E0E;
+  color: #F36E0E;
+  font-size: 14px;
+}
+
+.header h1,
+.header li a {
+  color: #F36E0E;
+}
+
+.menubar,
+.menubar.fixed {
+  background: #F36E0E;
+}
+
+.menubar li a{
+  color: #fff !important;
+}
+
+.content a,
+.content span {
+  color: #F36E0E;
+}
